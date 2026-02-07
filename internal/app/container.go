@@ -31,8 +31,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 
 	redisClient := redis.New()
 
-	userRepo := user.NewGormRepository(database.Gorm)
-	userService := user.NewService(userRepo, log)
+	userService := user.NewService(log)
 
 	return &Container{
 		DB:          database,

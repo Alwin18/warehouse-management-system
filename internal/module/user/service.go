@@ -7,15 +7,14 @@ type Service interface {
 }
 
 type service struct {
-	repo   Repository
 	logger logger.Logger
 }
 
-func NewService(r Repository, l logger.Logger) Service {
-	return &service{r, l}
+func NewService(l logger.Logger) Service {
+	return &service{l}
 }
 
 func (s *service) GetUsers() ([]User, error) {
 	s.logger.Info("fetch users")
-	return s.repo.FindAll()
+	return nil, nil
 }
