@@ -10,6 +10,7 @@ type PickingTask struct {
 	AssignedTo    *uint      `gorm:"index:idx_pt_assigned_to" json:"assigned_to"`
 	Status        string     `gorm:"type:varchar(50);not null" json:"status"`
 	CreatedAt     time.Time  `gorm:"not null;default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt     time.Time  `gorm:"not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
 	StartedAt     *time.Time `gorm:"column:started_at" json:"started_at"`
 	CompletedAt   *time.Time `gorm:"column:completed_at" json:"completed_at"`
 

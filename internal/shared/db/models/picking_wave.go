@@ -8,6 +8,7 @@ type PickingWave struct {
 	WarehouseID uint      `gorm:"not null;index:idx_wave_wh" json:"warehouse_id"`
 	Status      string    `gorm:"type:varchar(50);not null" json:"status"`
 	CreatedAt   time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt   time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
 	CreatedBy   uint      `gorm:"not null;index:idx_wave_created_by" json:"created_by"`
 
 	// Relationships

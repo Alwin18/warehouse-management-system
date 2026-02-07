@@ -7,6 +7,8 @@ type ProductBatch struct {
 	ProductID   uint       `gorm:"not null;index:idx_batch_product" json:"product_id"`
 	BatchNumber string     `gorm:"type:varchar(100);not null;column:batch_number" json:"batch_number"`
 	ExpiryDate  *time.Time `gorm:"type:date;column:expiry_date" json:"expiry_date"`
+	CreatedAt   time.Time  `gorm:"not null;default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt   time.Time  `gorm:"not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
 
 	// Relationships
 	Product              *Product              `gorm:"foreignKey:ProductID;constraint:OnDelete:CASCADE;" json:"product,omitempty"`

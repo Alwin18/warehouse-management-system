@@ -24,6 +24,11 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		return nil, err
 	}
 
+	// Run auto migration
+	if err := db.AutoMigrate(database.Gorm, log); err != nil {
+		return nil, err
+	}
+
 	redisClient := redis.New()
 
 	userRepo := user.NewGormRepository(database.Gorm)

@@ -12,6 +12,7 @@ type StockCount struct {
 	CompletedAt *time.Time `gorm:"column:completed_at" json:"completed_at"`
 	CreatedBy   uint       `gorm:"not null;index:idx_sc_created_by" json:"created_by"`
 	CreatedAt   time.Time  `gorm:"not null;default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt   time.Time  `gorm:"not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
 
 	// Relationships
 	Warehouse *Warehouse       `gorm:"foreignKey:WarehouseID;constraint:OnDelete:RESTRICT;" json:"warehouse,omitempty"`

@@ -10,6 +10,7 @@ type SupplierReturn struct {
 	Status       string    `gorm:"type:varchar(50);not null" json:"status"`
 	Reason       *string   `gorm:"type:text" json:"reason"`
 	CreatedAt    time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt    time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
 	CreatedBy    uint      `gorm:"not null;index:idx_supret_created_by" json:"created_by"`
 
 	// Relationships

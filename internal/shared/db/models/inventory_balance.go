@@ -12,6 +12,7 @@ type InventoryBalance struct {
 	OnHandQty    float64   `gorm:"type:decimal(18,3);not null;default:0;column:on_hand_qty" json:"on_hand_qty"`
 	ReservedQty  float64   `gorm:"type:decimal(18,3);not null;default:0;column:reserved_qty" json:"reserved_qty"`
 	AvailableQty float64   `gorm:"type:decimal(18,3);not null;default:0;column:available_qty" json:"available_qty"`
+	CreatedAt    time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt    time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
 
 	// Relationships

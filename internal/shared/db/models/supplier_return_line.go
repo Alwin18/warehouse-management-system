@@ -1,13 +1,17 @@
 package models
 
+import "time"
+
 type SupplierReturnLine struct {
-	ID               uint    `gorm:"primary_key" json:"id"`
-	SupplierReturnID uint    `gorm:"not null;index:idx_srlines_sr" json:"supplier_return_id"`
-	ProductID        uint    `gorm:"not null;index:idx_srlines_product" json:"product_id"`
-	BatchID          *uint   `gorm:"index:idx_srlines_batch" json:"batch_id"`
-	UOM              string  `gorm:"type:varchar(20);not null" json:"uom"`
-	Qty              float64 `gorm:"type:decimal(18,3);not null" json:"qty"`
-	ReasonCode       *string `gorm:"type:varchar(50);column:reason_code" json:"reason_code"`
+	ID               uint      `gorm:"primary_key" json:"id"`
+	SupplierReturnID uint      `gorm:"not null;index:idx_srlines_sr" json:"supplier_return_id"`
+	ProductID        uint      `gorm:"not null;index:idx_srlines_product" json:"product_id"`
+	BatchID          *uint     `gorm:"index:idx_srlines_batch" json:"batch_id"`
+	UOM              string    `gorm:"type:varchar(20);not null" json:"uom"`
+	Qty              float64   `gorm:"type:decimal(18,3);not null" json:"qty"`
+	ReasonCode       *string   `gorm:"type:varchar(50);column:reason_code" json:"reason_code"`
+	CreatedAt        time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt        time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
 
 	// Relationships
 	SupplierReturn *SupplierReturn `gorm:"foreignKey:SupplierReturnID;constraint:OnDelete:CASCADE;" json:"supplier_return,omitempty"`

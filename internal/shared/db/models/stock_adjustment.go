@@ -10,6 +10,7 @@ type StockAdjustment struct {
 	Status           string     `gorm:"type:varchar(50);not null" json:"status"`
 	CreatedBy        uint       `gorm:"not null;index:idx_adj_created_by" json:"created_by"`
 	CreatedAt        time.Time  `gorm:"not null;default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt        time.Time  `gorm:"not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
 	PostedAt         *time.Time `gorm:"column:posted_at" json:"posted_at"`
 
 	// Relationships

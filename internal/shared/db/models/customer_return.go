@@ -12,6 +12,8 @@ type CustomerReturn struct {
 	Reason       *string    `gorm:"type:text" json:"reason"`
 	RequestedAt  time.Time  `gorm:"not null;column:requested_at" json:"requested_at"`
 	ReceivedAt   *time.Time `gorm:"column:received_at" json:"received_at"`
+	CreatedAt    time.Time  `gorm:"not null;default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt    time.Time  `gorm:"not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
 
 	// Relationships
 	SalesOrder *SalesOrder          `gorm:"foreignKey:SalesOrderID;constraint:OnDelete:RESTRICT;" json:"sales_order,omitempty"`

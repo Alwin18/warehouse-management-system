@@ -10,9 +10,15 @@ import (
 
 	"github.com/Alwin18/golang-modular-template/config"
 	"github.com/Alwin18/golang-modular-template/internal/app"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	// Load .env file
+	if err := godotenv.Load(); err != nil {
+		log.Println("Warning: .env file not found, using default values")
+	}
+
 	cfg := config.LoadConfig()
 
 	container, err := app.NewContainer(cfg)

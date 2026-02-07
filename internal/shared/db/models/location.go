@@ -1,15 +1,19 @@
 package models
 
+import "time"
+
 type Location struct {
-	ID           uint     `gorm:"primary_key" json:"id"`
-	WarehouseID  uint     `gorm:"not null;index:idx_locations_wh" json:"warehouse_id"`
-	ZoneID       uint     `gorm:"not null;index:idx_locations_zone" json:"zone_id"`
-	Code         string   `gorm:"type:varchar(50);not null" json:"code"`
-	Description  *string  `gorm:"type:text" json:"description"`
-	LocationType string   `gorm:"type:varchar(50);not null;column:location_type" json:"location_type"`
-	MaxVolume    *float64 `gorm:"type:decimal(18,2);column:max_volume" json:"max_volume"`
-	MaxWeight    *float64 `gorm:"type:decimal(18,2);column:max_weight" json:"max_weight"`
-	IsActive     *bool    `gorm:"type:boolean;not null;default:true;column:is_active" json:"is_active"`
+	ID           uint      `gorm:"primary_key" json:"id"`
+	WarehouseID  uint      `gorm:"not null;index:idx_locations_wh" json:"warehouse_id"`
+	ZoneID       uint      `gorm:"not null;index:idx_locations_zone" json:"zone_id"`
+	Code         string    `gorm:"type:varchar(50);not null" json:"code"`
+	Description  *string   `gorm:"type:text" json:"description"`
+	LocationType string    `gorm:"type:varchar(50);not null;column:location_type" json:"location_type"`
+	MaxVolume    *float64  `gorm:"type:decimal(18,2);column:max_volume" json:"max_volume"`
+	MaxWeight    *float64  `gorm:"type:decimal(18,2);column:max_weight" json:"max_weight"`
+	IsActive     *bool     `gorm:"type:boolean;not null;default:true;column:is_active" json:"is_active"`
+	CreatedAt    time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt    time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
 
 	// Relationships
 	Warehouse            *Warehouse            `gorm:"foreignKey:WarehouseID;constraint:OnDelete:CASCADE;" json:"warehouse,omitempty"`

@@ -1,14 +1,18 @@
 package models
 
+import "time"
+
 type StockCountLine struct {
-	ID           uint     `gorm:"primary_key" json:"id"`
-	StockCountID uint     `gorm:"not null;index:idx_scl_sc" json:"stock_count_id"`
-	LocationID   uint     `gorm:"not null;index:idx_scl_loc" json:"location_id"`
-	ProductID    uint     `gorm:"not null;index:idx_scl_product" json:"product_id"`
-	BatchID      *uint    `gorm:"index:idx_scl_batch" json:"batch_id"`
-	SystemQty    float64  `gorm:"type:decimal(18,3);not null;column:system_qty" json:"system_qty"`
-	CountedQty   *float64 `gorm:"type:decimal(18,3);column:counted_qty" json:"counted_qty"`
-	VarianceQty  *float64 `gorm:"type:decimal(18,3);column:variance_qty" json:"variance_qty"`
+	ID           uint      `gorm:"primary_key" json:"id"`
+	StockCountID uint      `gorm:"not null;index:idx_scl_sc" json:"stock_count_id"`
+	LocationID   uint      `gorm:"not null;index:idx_scl_loc" json:"location_id"`
+	ProductID    uint      `gorm:"not null;index:idx_scl_product" json:"product_id"`
+	BatchID      *uint     `gorm:"index:idx_scl_batch" json:"batch_id"`
+	SystemQty    float64   `gorm:"type:decimal(18,3);not null;column:system_qty" json:"system_qty"`
+	CountedQty   *float64  `gorm:"type:decimal(18,3);column:counted_qty" json:"counted_qty"`
+	VarianceQty  *float64  `gorm:"type:decimal(18,3);column:variance_qty" json:"variance_qty"`
+	CreatedAt    time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt    time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
 
 	// Relationships
 	StockCount *StockCount   `gorm:"foreignKey:StockCountID;constraint:OnDelete:CASCADE;" json:"stock_count,omitempty"`

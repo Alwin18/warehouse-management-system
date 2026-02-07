@@ -1,14 +1,18 @@
 package models
 
+import "time"
+
 type StockAdjustmentLine struct {
-	ID                uint    `gorm:"primary_key" json:"id"`
-	StockAdjustmentID uint    `gorm:"not null;index:idx_adjlines_adj" json:"stock_adjustment_id"`
-	LocationID        uint    `gorm:"not null;index:idx_adjlines_loc" json:"location_id"`
-	ProductID         uint    `gorm:"not null;index:idx_adjlines_product" json:"product_id"`
-	BatchID           *uint   `gorm:"index:idx_adjlines_batch" json:"batch_id"`
-	QtyDelta          float64 `gorm:"type:decimal(18,3);not null;column:qty_delta" json:"qty_delta"`
-	UOM               string  `gorm:"type:varchar(20);not null" json:"uom"`
-	Note              *string `gorm:"type:text" json:"note"`
+	ID                uint      `gorm:"primary_key" json:"id"`
+	StockAdjustmentID uint      `gorm:"not null;index:idx_adjlines_adj" json:"stock_adjustment_id"`
+	LocationID        uint      `gorm:"not null;index:idx_adjlines_loc" json:"location_id"`
+	ProductID         uint      `gorm:"not null;index:idx_adjlines_product" json:"product_id"`
+	BatchID           *uint     `gorm:"index:idx_adjlines_batch" json:"batch_id"`
+	QtyDelta          float64   `gorm:"type:decimal(18,3);not null;column:qty_delta" json:"qty_delta"`
+	UOM               string    `gorm:"type:varchar(20);not null" json:"uom"`
+	Note              *string   `gorm:"type:text" json:"note"`
+	CreatedAt         time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt         time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
 
 	// Relationships
 	StockAdjustment *StockAdjustment `gorm:"foreignKey:StockAdjustmentID;constraint:OnDelete:CASCADE;" json:"stock_adjustment,omitempty"`
