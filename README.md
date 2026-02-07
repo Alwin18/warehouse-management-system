@@ -1,0 +1,2 @@
+# Warehouse Hub
+Warehouse & Logistics Management System (WMS) ini dirancang untuk perusahaan distribusi, retail, e‑commerce dan manufaktur yang memiliki satu atau banyak gudang. Sistem akan mengelola seluruh siklus pergerakan barang mulai dari barang masuk (inbound), penyimpanan (putaway), perpindahan internal, hingga barang keluar (outbound) dan pengembalian (returns).
