@@ -39,7 +39,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	redisClient := redis.New()
 
 	userService := user.NewService(log)
-	authService := auth.NewService(log, database)
+	authService := auth.NewService(log, database, cfg.JWTSecret, cfg.JWTExpired)
 
 	return &Container{
 		DB:        database,

@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"github.com/Alwin18/golang-modular-template/internal/shared/errors"
 	"github.com/Alwin18/golang-modular-template/internal/shared/logger"
 	"github.com/Alwin18/golang-modular-template/internal/shared/response"
 	"github.com/Alwin18/golang-modular-template/internal/shared/validation"
@@ -32,20 +33,17 @@ func (h *Handler) Login(ctx *fiber.Ctx) error {
 	}
 
 	if err := h.validate.Struct(body); err != nil {
-		errors := validation.FormatValidationErrors(err, body)
+		validationErrors := validation.FormatValidationErrors(err, body)
 		return ctx.Status(fiber.StatusBadRequest).JSON(response.NewErrorResponse(response.ResponseError{
 			Message: "body request tidak sesuai",
 			Code:    fiber.StatusBadRequest,
-			Errors:  errors,
+			Errors:  validationErrors,
 		}))
 	}
 
 	resp, err := h.service.Login(ctx, body)
 	if err != nil {
-		return ctx.JSON(response.NewErrorResponse(response.ResponseError{
-			Message: err.Error(),
-			Code:    ctx.Response().Header.StatusCode(),
-		}))
+		return errors.HandleError(ctx, err)
 	}
 
 	return ctx.Status(fiber.StatusOK).JSON(response.NewResponse(resp, "success login", fiber.StatusOK))

@@ -2,7 +2,6 @@ package db
 
 import (
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/Alwin18/golang-modular-template/config"
@@ -66,7 +65,7 @@ func NewPostgres(cfg *config.Config, log logger.Logger) (*DB, error) {
 	connection.SetMaxOpenConns(maxOpenConns)
 	connection.SetConnMaxLifetime(time.Second * time.Duration(maxLifeTimeConnection))
 
-	if os.Getenv("ENV") == "development" {
+	if cfg.AppEnv == "development" {
 		db = db.Debug()
 	}
 

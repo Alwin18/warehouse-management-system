@@ -5,6 +5,7 @@ import (
 )
 
 type Config struct {
+	AppEnv  string
 	AppName string
 	AppPort string
 
@@ -16,10 +17,14 @@ type Config struct {
 
 	RedisHost string
 	RedisPort string
+
+	JWTSecret  string
+	JWTExpired string
 }
 
 func LoadConfig() *Config {
 	return &Config{
+		AppEnv:  getEnv("APP_ENV", "development"),
 		AppName: getEnv("APP_NAME", "go-modular"),
 		AppPort: getEnv("APP_PORT", "3000"),
 
@@ -31,6 +36,9 @@ func LoadConfig() *Config {
 
 		RedisHost: getEnv("REDIS_HOST", "localhost"),
 		RedisPort: getEnv("REDIS_PORT", "6379"),
+
+		JWTSecret:  getEnv("JWT_SECRET", ""),
+		JWTExpired: getEnv("JWT_EXPIRED", "3h"),
 	}
 }
 
