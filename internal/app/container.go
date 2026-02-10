@@ -4,6 +4,7 @@ import (
 	"github.com/Alwin18/golang-modular-template/config"
 	"github.com/Alwin18/golang-modular-template/internal/module/auth"
 	"github.com/Alwin18/golang-modular-template/internal/module/user"
+	"github.com/Alwin18/golang-modular-template/internal/module/warehouse"
 	"github.com/Alwin18/golang-modular-template/internal/shared/db"
 	"github.com/Alwin18/golang-modular-template/internal/shared/logger"
 	"github.com/Alwin18/golang-modular-template/internal/shared/redis"
@@ -17,8 +18,9 @@ type Container struct {
 	Logger    logger.Logger
 	Validator *validator.Validate
 
-	UserService user.Service
-	AuthService auth.Service
+	UserService      user.Service
+	AuthService      auth.Service
+	WarehouseService *warehouse.Service
 }
 
 func NewContainer(cfg *config.Config) (*Container, error) {
@@ -40,6 +42,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 
 	userService := user.NewService(log)
 	authService := auth.NewService(log, database, cfg.JWTSecret, cfg.JWTExpired)
+	warehouseService := warehouse.NewService(log, database)
 
 	return &Container{
 		DB:        database,
@@ -48,8 +51,9 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		Validator: validator,
 
 		// Module Services
-		UserService: userService,
-		AuthService: authService,
+		UserService:      userService,
+		AuthService:      authService,
+		WarehouseService: warehouseService,
 	}, nil
 }
 

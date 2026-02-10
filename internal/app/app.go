@@ -13,8 +13,9 @@ func NewApp(c *Container) *fiber.App {
 		Validator: c.Validator,
 
 		// Module Services
-		UserService: c.UserService,
-		AuthService: c.AuthService,
+		UserService:      c.UserService,
+		AuthService:      c.AuthService,
+		WarehouseService: c.WarehouseService,
 	})
 
 	return app

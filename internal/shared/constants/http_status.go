@@ -15,8 +15,9 @@ const (
 )
 
 var (
-	ErrDataNotFound    = errors.New("data tidak ditemukan")
-	ErrInvalidPassword = errors.New("password yang anda masukan salah")
-	ErrInvalidRequest  = errors.New("request tidak valid")
-	ErrInternalServer  = errors.New("terjadi kesalahan sistem")
+	ErrDataNotFound      = errors.New("data tidak ditemukan")
+	ErrInvalidPassword   = errors.New("password yang anda masukan salah")
+	ErrInvalidRequest    = errors.New("request tidak valid")
+	ErrDataAlreadyExists = errors.New("data sudah ada")
+	ErrInternalServer    = errors.New("terjadi kesalahan sistem")
 )

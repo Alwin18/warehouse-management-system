@@ -112,6 +112,8 @@ func GetStatusCode(err error) int {
 		return fiber.StatusBadRequest
 	case "terjadi kesalahan sistem":
 		return fiber.StatusInternalServerError
+	case "data sudah ada":
+		return fiber.StatusConflict
 	default:
 		return fiber.StatusInternalServerError
 	}

@@ -3,10 +3,10 @@ package response
 import "math"
 
 type Meta struct {
-	Page      int `json:"page" example:"1"`
-	PerPage   int `json:"per_page" example:"10"`
-	TotalData int `json:"total_data" example:"100"`
-	Totalpage int `json:"total_page" example:"10"`
+	Page      int   `json:"page" example:"1"`
+	PerPage   int   `json:"per_page" example:"10"`
+	TotalData int64 `json:"total_data" example:"100"`
+	Totalpage int64 `json:"total_page" example:"10"`
 }
 
 type ProcessResponse struct {
@@ -65,8 +65,8 @@ func NewProcessResponse(message string, code int) ProcessResponse {
 	}
 }
 
-func TotalPage(totalData, perPage int) int {
-	page := int(math.Ceil(float64(totalData) / float64(perPage)))
+func TotalPage(totalData int64, perPage int) int64 {
+	page := int64(math.Ceil(float64(totalData) / float64(perPage)))
 	if page == 0 {
 		return 1
 	}
