@@ -40,7 +40,7 @@ func (h *Handler) Login(ctx *fiber.Ctx) error {
 		}))
 	}
 
-	resp, err := h.service.Login(ctx.UserContext(), body)
+	resp, err := h.service.Login(ctx, body)
 	if err != nil {
 		return ctx.JSON(response.NewErrorResponse(response.ResponseError{
 			Message: err.Error(),

@@ -39,7 +39,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	redisClient := redis.New()
 
 	userService := user.NewService(log)
-	authService := auth.NewService(log)
+	authService := auth.NewService(log, database)
 
 	return &Container{
 		DB:        database,
