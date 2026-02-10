@@ -8,6 +8,10 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
+func NewValidator() *validator.Validate {
+	return validator.New()
+}
+
 // function ini jalan secara recursive
 func GetJSONTagForField[T any](i T, fieldName string) string {
 	val := reflect.ValueOf(i)

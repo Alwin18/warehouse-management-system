@@ -9,7 +9,12 @@ func NewApp(c *Container) *fiber.App {
 	app := fiber.New()
 
 	httpDelivery.RegisterRoutes(app, httpDelivery.Deps{
+		Logger:    c.Logger,
+		Validator: c.Validator,
+
+		// Module Services
 		UserService: c.UserService,
+		AuthService: c.AuthService,
 	})
 
 	return app

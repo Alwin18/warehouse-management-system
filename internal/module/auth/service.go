@@ -20,5 +20,8 @@ func NewService(l logger.Logger) Service {
 
 func (s *service) Login(ctx context.Context, body LoginRequest) (LoginResponse, error) {
 	s.logger.Info("login user")
-	return LoginResponse{}, nil
+	return LoginResponse{
+		User:  UserLogin{},
+		Token: "AAAA",
+	}, nil
 }
