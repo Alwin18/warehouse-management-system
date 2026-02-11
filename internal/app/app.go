@@ -16,6 +16,7 @@ func NewApp(c *Container) *fiber.App {
 		UserService:      c.UserService,
 		AuthService:      c.AuthService,
 		WarehouseService: c.WarehouseService,
+		RoleService:      c.RoleService,
 	})
 
 	return app
