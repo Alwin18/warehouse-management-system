@@ -22,6 +22,7 @@ func AutoMigrate(db *gorm.DB, log logger.Logger) error {
 		&models.Location{},
 
 		// Product Management
+		&models.UnitOfMeasure{},
 		&models.Product{},
 		&models.ProductUOM{},
 		&models.ProductBatch{},

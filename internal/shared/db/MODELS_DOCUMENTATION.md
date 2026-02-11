@@ -184,6 +184,48 @@ Master data adalah data referensi yang relatif statis dan jarang berubah. Data i
 
 ## 3. Product Management
 
+### 📐 unit_of_measures
+
+**Tujuan**: Master data untuk standardisasi unit of measure yang digunakan di seluruh sistem.
+
+**Kolom-kolom**:
+- `id` (uint, PK): ID unik UOM
+- `code` (string, unique, required): Kode UOM yang unik (misal: PCS, KG, L, BOX)
+- `name` (string, required): Nama lengkap UOM (misal: Pieces, Kilogram, Liter, Box)
+- `symbol` (string, nullable): Symbol untuk display (misal: pcs, kg, L)
+- `category` (string, required): Kategori UOM (COUNT, WEIGHT, VOLUME, LENGTH, AREA, PACKAGING)
+- `description` (text, nullable): Deskripsi detail UOM
+- `is_active` (boolean, default: true): Status aktif/nonaktif UOM
+- `created_at` (timestamp): Waktu pembuatan record
+- `updated_at` (timestamp): Waktu update terakhir
+
+**Relasi**:
+- Referenced by: `products` (base_uom), `product_uoms` (uom), dan semua tabel transaksional yang menggunakan UOM
+
+**Kegunaan**:
+- **Standardisasi**: Mencegah typo dan inkonsistensi (misal: "PCS" vs "pcs" vs "Pcs")
+- **Validasi**: Enforce hanya UOM yang valid yang bisa digunakan
+- **Kategorisasi**: Grouping UOM berdasarkan tipe (berat, volume, count, dll)
+- **Metadata**: Menyimpan informasi tambahan seperti symbol dan deskripsi
+- **Reporting**: Memudahkan grouping dan filtering dalam report
+- **Internationalization**: Support multi-language untuk nama UOM
+
+**Kategori UOM**:
+- **COUNT**: PCS, EA, UNIT, PAIR, SET, DOZEN - untuk item yang dihitung per piece
+- **WEIGHT**: KG, G, MG, TON, LB, OZ - untuk produk yang dijual per berat
+- **VOLUME**: L, ML, GAL, M3 - untuk produk liquid atau gas
+- **LENGTH**: M, CM, MM, KM, FT, IN - untuk produk yang dijual per panjang
+- **AREA**: M2, FT2 - untuk produk yang dijual per luas area
+- **PACKAGING**: BOX, CARTON, PALLET, CASE, PACK, BAG, ROLL, BOTTLE, CAN, DRUM, CONTAINER - untuk unit packaging
+
+**Best Practices**:
+- Seed dengan UOM standar saat initial setup
+- Gunakan kode yang konsisten dengan standar industri (ISO, dll)
+- Maintain kategori untuk memudahkan validasi business rules
+- Inactive UOM yang tidak digunakan lagi, jangan delete
+
+---
+
 ### 📦 products
 
 **Tujuan**: Menyimpan informasi master produk yang dikelola dalam warehouse.
@@ -194,7 +236,7 @@ Master data adalah data referensi yang relatif statis dan jarang berubah. Data i
 - `name` (string, required): Nama produk
 - `barcode` (string, nullable): Barcode produk untuk scanning
 - `description` (text, nullable): Deskripsi detail produk
-- `base_uom` (string, required): Unit of Measure dasar (misal: PCS, KG, LITER)
+- `base_uom` (string, required): Unit of Measure dasar (misal: PCS, KG, LITER) - **Catatan**: Sebaiknya diubah menjadi FK ke `unit_of_measures`
 - `weight` (decimal, nullable): Berat produk
 - `volume` (decimal, nullable): Volume produk
 - `is_batch_managed` (boolean, default: false): Apakah produk dikelola per batch
@@ -221,7 +263,7 @@ Master data adalah data referensi yang relatif statis dan jarang berubah. Data i
 **Kolom-kolom**:
 - `id` (uint, PK): ID unik UOM
 - `product_id` (uint, FK, required): Referensi ke produk
-- `uom` (string, required): Unit of measure (misal: BOX, CARTON, PALLET)
+- `uom` (string, required): Unit of measure (misal: BOX, CARTON, PALLET) - **Catatan**: Sebaiknya diubah menjadi FK ke `unit_of_measures`
 - `conversion_to_base` (decimal, required): Faktor konversi ke base UOM
 - `is_default_sales` (boolean, default: false): UOM default untuk penjualan
 - `is_default_purchase` (boolean, default: false): UOM default untuk pembelian
@@ -230,6 +272,7 @@ Master data adalah data referensi yang relatif statis dan jarang berubah. Data i
 
 **Relasi**:
 - Belongs to `products` (CASCADE on delete)
+- Should reference `unit_of_measures` untuk standardisasi
 
 **Kegunaan**:
 - Mendukung transaksi dalam berbagai UOM
@@ -1160,10 +1203,11 @@ Setiap tabel transaksional memiliki kolom `status` untuk tracking lifecycle:
 ## 🎯 Summary
 
 Sistem database warehouse management ini dirancang dengan:
-- **37 models** yang comprehensive
+- **38 models** yang comprehensive (termasuk `unit_of_measures` untuk standardisasi UOM)
 - **Master-Transactional separation** untuk clarity
 - **Complete audit trail** melalui inventory_movements
-- **Flexible UOM** support
+- **Standardized UOM** dengan master table untuk data consistency
+- **Flexible UOM** support dengan konversi otomatis
 - **Batch/Serial tracking** capability
 - **Multi-warehouse** support
 - **Status-driven workflows**
