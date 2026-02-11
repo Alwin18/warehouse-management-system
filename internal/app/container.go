@@ -3,6 +3,7 @@ package app
 import (
 	"github.com/Alwin18/golang-modular-template/config"
 	"github.com/Alwin18/golang-modular-template/internal/module/auth"
+	"github.com/Alwin18/golang-modular-template/internal/module/product"
 	"github.com/Alwin18/golang-modular-template/internal/module/role"
 	"github.com/Alwin18/golang-modular-template/internal/module/user"
 	"github.com/Alwin18/golang-modular-template/internal/module/warehouse"
@@ -23,6 +24,7 @@ type Container struct {
 	AuthService      auth.Service
 	WarehouseService *warehouse.Service
 	RoleService      *role.Service
+	ProductService   *product.Service
 }
 
 func NewContainer(cfg *config.Config) (*Container, error) {
@@ -46,6 +48,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	authService := auth.NewService(log, database, cfg.JWTSecret, cfg.JWTExpired)
 	warehouseService := warehouse.NewService(log, database)
 	roleService := role.NewService(log, database)
+	productService := product.NewService(log, database)
 
 	return &Container{
 		DB:        database,
@@ -58,6 +61,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		AuthService:      authService,
 		WarehouseService: warehouseService,
 		RoleService:      roleService,
+		ProductService:   productService,
 	}, nil
 }
 

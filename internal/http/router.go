@@ -2,6 +2,7 @@ package http
 
 import (
 	"github.com/Alwin18/golang-modular-template/internal/module/auth"
+	"github.com/Alwin18/golang-modular-template/internal/module/product"
 	"github.com/Alwin18/golang-modular-template/internal/module/role"
 	"github.com/Alwin18/golang-modular-template/internal/module/user"
 	"github.com/Alwin18/golang-modular-template/internal/module/warehouse"
@@ -19,6 +20,7 @@ type Deps struct {
 	AuthService      auth.Service
 	WarehouseService *warehouse.Service
 	RoleService      *role.Service
+	ProductService   *product.Service
 }
 
 func RegisterRoutes(app *fiber.App, d Deps) {
@@ -28,4 +30,5 @@ func RegisterRoutes(app *fiber.App, d Deps) {
 	auth.RegisterRoutes(api, d.AuthService, d.Validator, &d.Logger)
 	warehouse.RegisterRoutes(api, d.WarehouseService, d.Validator, &d.Logger)
 	role.RegisterRoutes(api, d.RoleService, d.Validator, &d.Logger)
+	product.RegisterRoutes(api, d.ProductService, d.Validator, &d.Logger)
 }
