@@ -11,7 +11,6 @@ type Customer struct {
 	Country   *string   `gorm:"type:varchar(100)" json:"country"`
 	Phone     *string   `gorm:"type:varchar(50)" json:"phone"`
 	Email     *string   `gorm:"type:varchar(255)" json:"email"`
-	TaxID     *string   `gorm:"type:varchar(100);column:tax_id" json:"tax_id"`
 	IsActive  *bool     `gorm:"type:boolean;not null;default:true;column:is_active" json:"is_active"`
 	CreatedAt time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
