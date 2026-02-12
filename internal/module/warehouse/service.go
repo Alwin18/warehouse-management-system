@@ -87,7 +87,7 @@ func (s *Service) CreateWarehouse(ctx *fiber.Ctx, body CreateWarehouseRequest) e
 
 func (s *Service) UpdateWarehouse(ctx *fiber.Ctx, id uint, body CreateWarehouseRequest) error {
 	s.logger.Info("Update Warehouse")
-	return s.db.Gorm.WithContext(ctx.UserContext()).Model(&models.Warehouse{}).Where("id = ?", id).Updates(&models.Warehouse{
+	if err := s.db.Gorm.WithContext(ctx.UserContext()).Model(&models.Warehouse{}).Where("id = ?", id).Updates(&models.Warehouse{
 		Code:      body.Code,
 		Name:      body.Name,
 		Address:   body.Address,
@@ -96,12 +96,22 @@ func (s *Service) UpdateWarehouse(ctx *fiber.Ctx, id uint, body CreateWarehouseR
 		TimeZone:  body.TimeZone,
 		IsActive:  body.IsActive,
 		UpdatedAt: time.Now(),
-	}).Error
+	}).Error; err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+
+	return nil
 }
 
 func (s *Service) DeleteWarehouse(ctx *fiber.Ctx, id uint) error {
 	s.logger.Info("Delete Warehouse")
-	return s.db.Gorm.WithContext(ctx.UserContext()).Delete(&models.Warehouse{}, id).Error
+	if err := s.db.Gorm.WithContext(ctx.UserContext()).Delete(&models.Warehouse{}, id).Error; err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+
+	return nil
 }
 
 func (s *Service) CreateWarehouseZone(ctx *fiber.Ctx, body CreateWarehouseZoneRequest) error {
@@ -123,14 +133,19 @@ func (s *Service) CreateWarehouseZone(ctx *fiber.Ctx, body CreateWarehouseZoneRe
 		return constants.ErrDataAlreadyExists
 	}
 
-	return s.db.Gorm.WithContext(ctx.UserContext()).Create(&models.WarehouseZone{
+	if err := s.db.Gorm.WithContext(ctx.UserContext()).Create(&models.WarehouseZone{
 		Code:        body.Code,
 		Name:        body.Name,
 		WarehouseID: body.WarehouseID,
 		IsActive:    body.IsActive,
 		CreatedAt:   time.Now(),
 		UpdatedAt:   time.Now(),
-	}).Error
+	}).Error; err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+
+	return nil
 }
 
 func (s *Service) CreateWarehouseLocation(ctx *fiber.Ctx, body CreateWarehouseLocationRequest) error {
@@ -152,7 +167,7 @@ func (s *Service) CreateWarehouseLocation(ctx *fiber.Ctx, body CreateWarehouseLo
 		return constants.ErrDataAlreadyExists
 	}
 
-	return s.db.Gorm.WithContext(ctx.UserContext()).Create(&models.Location{
+	if err := s.db.Gorm.WithContext(ctx.UserContext()).Create(&models.Location{
 		WarehouseID:  body.WarehouseID,
 		ZoneID:       body.ZoneID,
 		Code:         body.Code,
@@ -163,5 +178,10 @@ func (s *Service) CreateWarehouseLocation(ctx *fiber.Ctx, body CreateWarehouseLo
 		MaxWeight:    body.MaxWeight,
 		CreatedAt:    time.Now(),
 		UpdatedAt:    time.Now(),
-	}).Error
+	}).Error; err != nil {
+		s.logger.Error(err.Error())
+		return err
+	}
+
+	return nil
 }

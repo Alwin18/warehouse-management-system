@@ -13,3 +13,11 @@ type Service struct {
 func NewService(l logger.Logger, d *db.DB) *Service {
 	return &Service{l, d}
 }
+
+// List
+
+// Create
+
+// Update
+
+// Delete

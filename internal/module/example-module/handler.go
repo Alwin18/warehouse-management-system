@@ -20,8 +20,15 @@ func NewHandler(s *Service, v *validator.Validate, l *logger.Logger) *Handler {
 	}
 }
 
+// List
 func (h *Handler) ListExampleModule(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{
 		"message": "Hello, World!",
 	})
 }
+
+// Create
+
+// Update
+
+// Delete

@@ -25,6 +25,7 @@ func (s *Service) ListProduct(ctx *fiber.Ctx, params ListProductRequest) ([]List
 	queryResult := s.db.Gorm.WithContext(ctx.UserContext()).Model(&models.Product{})
 
 	if err := queryResult.Count(&count).Error; err != nil {
+		s.logger.Error(err.Error())
 		return nil, 0, err
 	}
 
@@ -33,6 +34,7 @@ func (s *Service) ListProduct(ctx *fiber.Ctx, params ListProductRequest) ([]List
 		Offset((params.Page - 1) * params.PerPage).
 		Order("updated_at desc").
 		Find(&result).Error; err != nil {
+		s.logger.Error(err.Error())
 		return nil, 0, err
 	}
 
@@ -54,6 +56,7 @@ func (s *Service) CreateProduct(ctx *fiber.Ctx, req CreateProductRequest) error 
 		CreatedAt:      time.Now(),
 		UpdatedAt:      time.Now(),
 	}).Error; err != nil {
+		s.logger.Error(err.Error())
 		return err
 	}
 
@@ -73,6 +76,7 @@ func (s *Service) UpdateProduct(ctx *fiber.Ctx, id uint, req CreateProductReques
 		IsActive:       req.IsActive,
 		UpdatedAt:      time.Now(),
 	}).Error; err != nil {
+		s.logger.Error(err.Error())
 		return err
 	}
 
@@ -81,6 +85,7 @@ func (s *Service) UpdateProduct(ctx *fiber.Ctx, id uint, req CreateProductReques
 
 func (s *Service) DeleteProduct(ctx *fiber.Ctx, id uint) error {
 	if err := s.db.Gorm.WithContext(ctx.UserContext()).Delete(&models.Product{}, id).Error; err != nil {
+		s.logger.Error(err.Error())
 		return err
 	}
 

@@ -333,7 +333,6 @@ Master data adalah data referensi yang relatif statis dan jarang berubah. Data i
 - `country` (string, nullable): Negara supplier
 - `phone` (string, nullable): Nomor telepon supplier
 - `email` (string, nullable): Email supplier
-- `tax_id` (string, nullable): Nomor pajak/NPWP supplier
 - `is_active` (boolean, default: true): Status aktif/nonaktif supplier
 - `created_at` (timestamp): Waktu pembuatan record
 - `updated_at` (timestamp): Waktu update terakhir
