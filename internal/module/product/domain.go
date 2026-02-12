@@ -15,7 +15,6 @@ type ListProductResponse struct {
 	Name           string    `json:"name"`
 	Barcode        *string   `json:"barcode"`
 	Description    *string   `json:"description"`
-	BaseUOM        string    `json:"base_uom"`
 	Weight         *float64  `json:"weight"`
 	Volume         *float64  `json:"volume"`
 	IsBatchManaged *bool     `json:"is_batch_managed"`
@@ -30,7 +29,6 @@ type CreateProductRequest struct {
 	Name           string   `json:"name" validate:"required"`
 	Barcode        *string  `json:"barcode"`
 	Description    *string  `json:"description"`
-	BaseUOM        string   `json:"base_uom" validate:"required"`
 	Weight         *float64 `json:"weight" validate:"required"`
 	Volume         *float64 `json:"volume" validate:"required"`
 	IsBatchManaged *bool    `json:"is_batch_managed" validate:"required"`

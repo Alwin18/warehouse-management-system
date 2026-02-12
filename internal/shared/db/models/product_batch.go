@@ -4,8 +4,8 @@ import "time"
 
 type ProductBatch struct {
 	ID          uint       `gorm:"primary_key" json:"id"`
-	ProductID   uint       `gorm:"not null;index:idx_batch_product" json:"product_id"`
-	BatchNumber string     `gorm:"type:varchar(100);not null;column:batch_number" json:"batch_number"`
+	ProductID   uint       `gorm:"not null;uniqueIndex:ux_product_batch;index:idx_batch_product" json:"product_id"`
+	BatchNumber string     `gorm:"type:varchar(100);not null;uniqueIndex:ux_product_batch;column:batch_number" json:"batch_number"`
 	ExpiryDate  *time.Time `gorm:"type:date;column:expiry_date" json:"expiry_date"`
 	CreatedAt   time.Time  `gorm:"not null;default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt   time.Time  `gorm:"not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
@@ -20,6 +20,7 @@ type ProductBatch struct {
 	StockCountLines      []StockCountLine      `gorm:"foreignKey:BatchID" json:"stock_count_lines,omitempty"`
 	StockAdjustmentLines []StockAdjustmentLine `gorm:"foreignKey:BatchID" json:"stock_adjustment_lines,omitempty"`
 	SupplierReturnLines  []SupplierReturnLine  `gorm:"foreignKey:BatchID" json:"supplier_return_lines,omitempty"`
+	CustomerReturnLines  []CustomerReturnLine  `gorm:"foreignKey:BatchID" json:"customer_return_lines,omitempty"`
 }
 
 func (ProductBatch) TableName() string {

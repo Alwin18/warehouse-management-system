@@ -9,7 +9,7 @@ type StockAdjustmentLine struct {
 	ProductID         uint      `gorm:"not null;index:idx_adjlines_product" json:"product_id"`
 	BatchID           *uint     `gorm:"index:idx_adjlines_batch" json:"batch_id"`
 	QtyDelta          float64   `gorm:"type:decimal(18,3);not null;column:qty_delta" json:"qty_delta"`
-	UOM               string    `gorm:"type:varchar(20);not null" json:"uom"`
+	UOMID             uint      `gorm:"not null;column:uom_id" json:"uom_id"`
 	Note              *string   `gorm:"type:text" json:"note"`
 	CreatedAt         time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt         time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"updated_at"`
@@ -18,6 +18,7 @@ type StockAdjustmentLine struct {
 	StockAdjustment *StockAdjustment `gorm:"foreignKey:StockAdjustmentID;constraint:OnDelete:CASCADE;" json:"stock_adjustment,omitempty"`
 	Location        *Location        `gorm:"foreignKey:LocationID;constraint:OnDelete:RESTRICT;" json:"location,omitempty"`
 	Product         *Product         `gorm:"foreignKey:ProductID;constraint:OnDelete:RESTRICT;" json:"product,omitempty"`
+	UOM             *UnitOfMeasure   `gorm:"foreignKey:UOMID;constraint:OnDelete:RESTRICT;" json:"uom,omitempty"`
 	Batch           *ProductBatch    `gorm:"foreignKey:BatchID;constraint:OnDelete:SET NULL;" json:"batch,omitempty"`
 }
 

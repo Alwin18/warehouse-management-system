@@ -7,7 +7,7 @@ type ShipmentPackageItem struct {
 	ShipmentPackageID uint      `gorm:"not null;index:idx_pkgitems_pkg" json:"shipment_package_id"`
 	SalesOrderLineID  uint      `gorm:"not null;index:idx_pkgitems_sol" json:"sales_order_line_id"`
 	ProductID         uint      `gorm:"not null;index:idx_pkgitems_product" json:"product_id"`
-	UOM               string    `gorm:"type:varchar(20);not null" json:"uom"`
+	UOMID             uint      `gorm:"not null;column:uom_id" json:"uom_id"`
 	Qty               float64   `gorm:"type:decimal(18,3);not null" json:"qty"`
 	CreatedAt         time.Time `gorm:"not null;default:CURRENT_TIMESTAMP" json:"created_at"`
 
@@ -15,6 +15,7 @@ type ShipmentPackageItem struct {
 	ShipmentPackage *ShipmentPackage `gorm:"foreignKey:ShipmentPackageID;constraint:OnDelete:CASCADE;" json:"shipment_package,omitempty"`
 	SalesOrderLine  *SalesOrderLine  `gorm:"foreignKey:SalesOrderLineID;constraint:OnDelete:RESTRICT;" json:"sales_order_line,omitempty"`
 	Product         *Product         `gorm:"foreignKey:ProductID;constraint:OnDelete:RESTRICT;" json:"product,omitempty"`
+	UOM             *UnitOfMeasure   `gorm:"foreignKey:UOMID;constraint:OnDelete:RESTRICT;" json:"uom,omitempty"`
 }
 
 func (ShipmentPackageItem) TableName() string {

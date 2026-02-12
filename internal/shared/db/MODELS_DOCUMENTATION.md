@@ -236,7 +236,6 @@ Master data adalah data referensi yang relatif statis dan jarang berubah. Data i
 - `name` (string, required): Nama produk
 - `barcode` (string, nullable): Barcode produk untuk scanning
 - `description` (text, nullable): Deskripsi detail produk
-- `base_uom` (string, required): Unit of Measure dasar (misal: PCS, KG, LITER) - **Catatan**: Sebaiknya diubah menjadi FK ke `unit_of_measures`
 - `weight` (decimal, nullable): Berat produk
 - `volume` (decimal, nullable): Volume produk
 - `is_batch_managed` (boolean, default: false): Apakah produk dikelola per batch
@@ -253,6 +252,7 @@ Master data adalah data referensi yang relatif statis dan jarang berubah. Data i
 - Tracking karakteristik fisik produk
 - Mendukung berbagai strategi inventory (batch, serial)
 - Dasar untuk perhitungan kapasitas dan space utilization
+- **Base UOM** ditentukan dari tabel `product_uoms` dengan flag `is_base_uom = true`
 
 ---
 
@@ -262,9 +262,10 @@ Master data adalah data referensi yang relatif statis dan jarang berubah. Data i
 
 **Kolom-kolom**:
 - `id` (uint, PK): ID unik UOM
-- `product_id` (uint, FK, required): Referensi ke produk
-- `uom` (string, required): Unit of measure (misal: BOX, CARTON, PALLET) - **Catatan**: Sebaiknya diubah menjadi FK ke `unit_of_measures`
-- `conversion_to_base` (decimal, required): Faktor konversi ke base UOM
+- `product_id` (uint, FK, required, unique with uom_id): Referensi ke produk
+- `uom_id` (uint, FK, required, unique with product_id): Referensi ke `unit_of_measures`
+- `conversion_to_base` (decimal, required): Faktor konversi ke base UOM (base UOM selalu 1.0)
+- `is_base_uom` (boolean, default: false): Flag untuk menandai UOM dasar produk (harus ada tepat 1 per produk)
 - `is_default_sales` (boolean, default: false): UOM default untuk penjualan
 - `is_default_purchase` (boolean, default: false): UOM default untuk pembelian
 - `created_at` (timestamp): Waktu pembuatan record
@@ -272,13 +273,21 @@ Master data adalah data referensi yang relatif statis dan jarang berubah. Data i
 
 **Relasi**:
 - Belongs to `products` (CASCADE on delete)
-- Should reference `unit_of_measures` untuk standardisasi
+- Belongs to `unit_of_measures` (RESTRICT on delete)
+
+**Constraint**:
+- Unique index pada kombinasi `product_id + uom_id` untuk mencegah duplikasi
+- Setiap produk HARUS memiliki tepat 1 UOM dengan `is_base_uom = true`
 
 **Kegunaan**:
-- Mendukung transaksi dalam berbagai UOM
-- Konversi otomatis antar UOM
-- Fleksibilitas dalam pembelian dan penjualan
-- Contoh: 1 BOX = 12 PCS, 1 PALLET = 50 BOX
+- Menyimpan SEMUA UOM untuk produk, termasuk base UOM
+- Konversi otomatis antar UOM menggunakan `conversion_to_base`
+- Fleksibilitas dalam pembelian dan penjualan dengan berbagai UOM
+- Standardisasi UOM melalui FK ke `unit_of_measures`
+- Contoh: Product A memiliki 3 UOM:
+  - PCS (is_base_uom=true, conversion=1.0) - Base UOM
+  - BOX (conversion=12.0) - 1 BOX = 12 PCS
+  - PALLET (conversion=600.0) - 1 PALLET = 600 PCS
 
 ---
 
@@ -288,15 +297,18 @@ Master data adalah data referensi yang relatif statis dan jarang berubah. Data i
 
 **Kolom-kolom**:
 - `id` (uint, PK): ID unik batch
-- `product_id` (uint, FK, required): Referensi ke produk
-- `batch_number` (string, required): Nomor batch/lot dari supplier
+- `product_id` (uint, FK, required, unique with batch_number): Referensi ke produk
+- `batch_number` (string, required, unique with product_id): Nomor batch/lot dari supplier
 - `expiry_date` (date, nullable): Tanggal kadaluarsa batch
 - `created_at` (timestamp): Waktu pembuatan record
 - `updated_at` (timestamp): Waktu update terakhir
 
+**Constraint**:
+- Unique index pada kombinasi `product_id + batch_number` untuk mencegah duplikasi batch number per produk
+
 **Relasi**:
 - Belongs to `products` (CASCADE on delete)
-- Has Many: `goods_receipt_lines`, `inventory_balances`, `inventory_movements`, `picking_task_lines`, `putaway_task_lines`, `stock_count_lines`, `stock_adjustment_lines`, `supplier_return_lines`
+- Has Many: `goods_receipt_lines`, `inventory_balances`, `inventory_movements`, `picking_task_lines`, `putaway_task_lines`, `stock_count_lines`, `stock_adjustment_lines`, `supplier_return_lines`, `customer_return_lines`
 
 **Kegunaan**:
 - Traceability produk dari supplier ke customer

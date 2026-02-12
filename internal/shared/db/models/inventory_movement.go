@@ -11,7 +11,7 @@ type InventoryMovement struct {
 	FromLocationID *uint     `gorm:"index:idx_invmov_fromloc" json:"from_location_id"`
 	ToLocationID   *uint     `gorm:"index:idx_invmov_toloc" json:"to_location_id"`
 	Qty            float64   `gorm:"type:decimal(18,3);not null" json:"qty"`
-	UOM            string    `gorm:"type:varchar(20);not null" json:"uom"`
+	UOMID          uint      `gorm:"not null;column:uom_id" json:"uom_id"`
 	StatusBefore   *string   `gorm:"type:varchar(50);column:status_before" json:"status_before"`
 	StatusAfter    *string   `gorm:"type:varchar(50);column:status_after" json:"status_after"`
 	ReferenceType  *string   `gorm:"type:varchar(50);column:reference_type" json:"reference_type"`
@@ -21,12 +21,13 @@ type InventoryMovement struct {
 	Note           *string   `gorm:"type:text" json:"note"`
 
 	// Relationships
-	Warehouse    *Warehouse    `gorm:"foreignKey:WarehouseID;constraint:OnDelete:CASCADE;" json:"warehouse,omitempty"`
-	Product      *Product      `gorm:"foreignKey:ProductID;constraint:OnDelete:CASCADE;" json:"product,omitempty"`
-	Batch        *ProductBatch `gorm:"foreignKey:BatchID;constraint:OnDelete:SET NULL;" json:"batch,omitempty"`
-	FromLocation *Location     `gorm:"foreignKey:FromLocationID;constraint:OnDelete:SET NULL;" json:"from_location,omitempty"`
-	ToLocation   *Location     `gorm:"foreignKey:ToLocationID;constraint:OnDelete:SET NULL;" json:"to_location,omitempty"`
-	Creator      *User         `gorm:"foreignKey:CreatedBy;constraint:OnDelete:SET NULL;" json:"creator,omitempty"`
+	Warehouse    *Warehouse     `gorm:"foreignKey:WarehouseID;constraint:OnDelete:CASCADE;" json:"warehouse,omitempty"`
+	Product      *Product       `gorm:"foreignKey:ProductID;constraint:OnDelete:CASCADE;" json:"product,omitempty"`
+	UOM          *UnitOfMeasure `gorm:"foreignKey:UOMID;constraint:OnDelete:RESTRICT;" json:"uom,omitempty"`
+	Batch        *ProductBatch  `gorm:"foreignKey:BatchID;constraint:OnDelete:SET NULL;" json:"batch,omitempty"`
+	FromLocation *Location      `gorm:"foreignKey:FromLocationID;constraint:OnDelete:SET NULL;" json:"from_location,omitempty"`
+	ToLocation   *Location      `gorm:"foreignKey:ToLocationID;constraint:OnDelete:SET NULL;" json:"to_location,omitempty"`
+	Creator      *User          `gorm:"foreignKey:CreatedBy;constraint:OnDelete:SET NULL;" json:"creator,omitempty"`
 }
 
 func (InventoryMovement) TableName() string {

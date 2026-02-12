@@ -38,9 +38,9 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	validator := validation.NewValidator()
 
 	// Run auto migration
-	// if err := db.AutoMigrate(database.Gorm, log); err != nil {
-	// 	return nil, err
-	// }
+	if err := db.AutoMigrate(database.Gorm, log); err != nil {
+		return nil, err
+	}
 
 	redisClient := redis.New()
 

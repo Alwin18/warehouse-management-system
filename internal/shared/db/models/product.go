@@ -8,7 +8,6 @@ type Product struct {
 	Name           string    `gorm:"type:varchar(255);not null" json:"name"`
 	Barcode        *string   `gorm:"type:varchar(100)" json:"barcode"`
 	Description    *string   `gorm:"type:text" json:"description"`
-	BaseUOM        string    `gorm:"type:varchar(20);not null;column:base_uom" json:"base_uom"`
 	Weight         *float64  `gorm:"type:decimal(18,3)" json:"weight"`
 	Volume         *float64  `gorm:"type:decimal(18,3)" json:"volume"`
 	IsBatchManaged *bool     `gorm:"type:boolean;not null;default:false;column:is_batch_managed" json:"is_batch_managed"`
