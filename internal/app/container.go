@@ -3,6 +3,7 @@ package app
 import (
 	"github.com/Alwin18/golang-modular-template/config"
 	"github.com/Alwin18/golang-modular-template/internal/module/auth"
+	"github.com/Alwin18/golang-modular-template/internal/module/carrier"
 	"github.com/Alwin18/golang-modular-template/internal/module/customer"
 	"github.com/Alwin18/golang-modular-template/internal/module/product"
 	"github.com/Alwin18/golang-modular-template/internal/module/role"
@@ -29,6 +30,7 @@ type Container struct {
 	ProductService   *product.Service
 	SupplierService  *supplier.Service
 	CustomerService  *customer.Service
+	CarrierService   *carrier.Service
 }
 
 func NewContainer(cfg *config.Config) (*Container, error) {
@@ -55,6 +57,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	productService := product.NewService(log, database)
 	supplierService := supplier.NewService(log, database)
 	customerService := customer.NewService(log, database)
+	carrierService := carrier.NewService(log, database)
 
 	return &Container{
 		DB:        database,
@@ -70,6 +73,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		ProductService:   productService,
 		SupplierService:  supplierService,
 		CustomerService:  customerService,
+		CarrierService:   carrierService,
 	}, nil
 }
 

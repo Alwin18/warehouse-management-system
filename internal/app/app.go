@@ -20,6 +20,7 @@ func NewApp(c *Container) *fiber.App {
 		ProductService:   c.ProductService,
 		SupplierService:  c.SupplierService,
 		CustomerService:  c.CustomerService,
+		CarrierService:   c.CarrierService,
 	})
 
 	return app
