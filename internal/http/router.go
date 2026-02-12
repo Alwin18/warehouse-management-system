@@ -18,8 +18,8 @@ type Deps struct {
 	Validator *validator.Validate
 
 	// Module Services
-	UserService      user.Service
 	AuthService      auth.Service
+	UserService      *user.Service
 	WarehouseService *warehouse.Service
 	RoleService      *role.Service
 	ProductService   *product.Service
@@ -30,7 +30,7 @@ type Deps struct {
 func RegisterRoutes(app *fiber.App, d Deps) {
 	api := app.Group("/api/v1")
 
-	user.RegisterRoutes(api, d.UserService)
+	user.RegisterRoutes(api, d.UserService, d.Validator, &d.Logger)
 	auth.RegisterRoutes(api, d.AuthService, d.Validator, &d.Logger)
 	warehouse.RegisterRoutes(api, d.WarehouseService, d.Validator, &d.Logger)
 	role.RegisterRoutes(api, d.RoleService, d.Validator, &d.Logger)

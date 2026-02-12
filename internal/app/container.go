@@ -22,8 +22,8 @@ type Container struct {
 	Logger    logger.Logger
 	Validator *validator.Validate
 
-	UserService      user.Service
 	AuthService      auth.Service
+	UserService      *user.Service
 	WarehouseService *warehouse.Service
 	RoleService      *role.Service
 	ProductService   *product.Service
@@ -48,7 +48,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 
 	redisClient := redis.New()
 
-	userService := user.NewService(log)
+	userService := user.NewService(log, database)
 	authService := auth.NewService(log, database, cfg.JWTSecret, cfg.JWTExpired)
 	warehouseService := warehouse.NewService(log, database)
 	roleService := role.NewService(log, database)
