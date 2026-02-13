@@ -68,6 +68,7 @@ func (s *Service) CreateUser(ctx *fiber.Ctx, body CreateUserRequest) error {
 		FullName:  body.FullName,
 		Password:  string(hashPassword),
 		Phone:     body.Phone,
+		IsActive:  body.IsActive,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}).Error; err != nil {
@@ -90,6 +91,7 @@ func (s *Service) UpdateUser(ctx *fiber.Ctx, id uint, body CreateUserRequest) er
 		FullName:  body.FullName,
 		Phone:     body.Phone,
 		Password:  string(hashPassword),
+		IsActive:  body.IsActive,
 		UpdatedAt: time.Now(),
 	}).Error; err != nil {
 		s.logger.Error("failed to update user", err)
