@@ -3,6 +3,7 @@ package app
 import (
 	"github.com/Alwin18/golang-modular-template/config"
 	"github.com/Alwin18/golang-modular-template/internal/module/auth"
+	purchaseorder "github.com/Alwin18/golang-modular-template/internal/module/inbound/purchase_order"
 	"github.com/Alwin18/golang-modular-template/internal/module/master_data/carrier"
 	"github.com/Alwin18/golang-modular-template/internal/module/master_data/customer"
 	"github.com/Alwin18/golang-modular-template/internal/module/master_data/product"
@@ -23,14 +24,20 @@ type Container struct {
 	Logger    logger.Logger
 	Validator *validator.Validate
 
-	AuthService      auth.Service
-	UserService      *user.Service
+	// User
+	AuthService auth.Service
+	UserService *user.Service
+
+	// Master Data
 	WarehouseService *warehouse.Service
 	RoleService      *role.Service
 	ProductService   *product.Service
 	SupplierService  *supplier.Service
 	CustomerService  *customer.Service
 	CarrierService   *carrier.Service
+
+	// Inbound
+	PurchaseOrderService *purchaseorder.Service
 }
 
 func NewContainer(cfg *config.Config) (*Container, error) {
@@ -58,6 +65,7 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 	supplierService := supplier.NewService(log, database)
 	customerService := customer.NewService(log, database)
 	carrierService := carrier.NewService(log, database)
+	purchaseOrderService := purchaseorder.NewService(log, database)
 
 	return &Container{
 		DB:        database,
@@ -66,14 +74,15 @@ func NewContainer(cfg *config.Config) (*Container, error) {
 		Validator: validator,
 
 		// Module Services
-		UserService:      userService,
-		AuthService:      authService,
-		WarehouseService: warehouseService,
-		RoleService:      roleService,
-		ProductService:   productService,
-		SupplierService:  supplierService,
-		CustomerService:  customerService,
-		CarrierService:   carrierService,
+		UserService:          userService,
+		AuthService:          authService,
+		WarehouseService:     warehouseService,
+		RoleService:          roleService,
+		ProductService:       productService,
+		SupplierService:      supplierService,
+		CustomerService:      customerService,
+		CarrierService:       carrierService,
+		PurchaseOrderService: purchaseOrderService,
 	}, nil
 }
 

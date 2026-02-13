@@ -22,6 +22,7 @@ type PurchaseOrder struct {
 	Creator       *User               `gorm:"foreignKey:CreatedBy;constraint:OnDelete:RESTRICT;" json:"creator,omitempty"`
 	Lines         []PurchaseOrderLine `gorm:"foreignKey:PurchaseOrderID" json:"lines,omitempty"`
 	GoodsReceipts []GoodsReceipt      `gorm:"foreignKey:PurchaseOrderID" json:"goods_receipts,omitempty"`
+	User          *User               `gorm:"foreignKey:CreatedBy;constraint:OnDelete:RESTRICT;" json:"user,omitempty"`
 }
 
 func (PurchaseOrder) TableName() string {
